@@ -1,12 +1,12 @@
-import requests, json
+import urllib.request, json
 
 print('Currency converter by D-007, D-008, D-009')
 currencies = {'PLN': 1}
 
 # loading currencies from API
 url = 'http://api.nbp.pl/api/exchangerates/tables/A/?format=json'
-response = requests.get(url)
-tab = json.loads(response.text)
+response = urllib.request.urlopen(url)
+tab = json.loads(response.read())
 
 for rate in tab[0]['rates']:
     currencies[rate['code']] = rate['mid']
@@ -20,7 +20,7 @@ def convert(value, code_from, code_to):
     return value * (currencies[code_from] / currencies[code_to])
 
 while True:
-    input_string = raw_input('> ')
+    input_string = input('> ')
     input_parts = input_string.split(' ')
 
     if len(input_parts) != 4:
